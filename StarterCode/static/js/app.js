@@ -1,11 +1,8 @@
 d3.json("samples.json").then(function(data) {
-    console.log(data)
+console.log(data.metadata)
 
-// data.names.map(function(name){
-
-// })
-
-d3
+//Get id number for drop-down
+d3 
 .select("#selDataset")
 .selectAll("option")
 .data(data.names)
@@ -15,68 +12,82 @@ d3
     return name
 })
 
-
+changeData()
 d3
 .select("#selDataset")
-.on("change",function() {
-var nameValue = d3.select(this).property("value")
-var filterMetaData = data.metadata.filter(meta => meta.id == nameValue)
-var filterSampleData = data.samples.filter(sample => sample.id == nameValue)
-console.log(filterMetaData[0])
-console.log(filterSampleData[0])
-})
-
-//same for samples
-
-
-//     // Values for bar chart
-//     var sampleValues = data.samples[0].sample_values.slice(0,10).reverse();
-//     console.log(sampleValues)
-
-//     // Labels for chart
-//     var otuIDs = data.samples[0].otu_ids;
-//     console.log(otuIDs)
-
-//     // Hovertext for chart
-//     var otuLabels = data.samples[0].otu_labels.slice(0,10);
-//     console.log(otuLabels)
-
-//     // Top ten IDs
-//     var topID = (data.samples[0].otu_ids.slice(0,10)).reverse();
-
-//     // Make labels
-//     var labels = topID.map(d => "" + d);
-//     console.log(`OTU IDs: ${labels}`)
+.on("change", changeData)
+function changeData() {
+    var nameValue = d3.select("#selDataset").property("value")
+    console.log(data.metadata)
+    var filterMetaData = data.metadata.filter(meta => meta.id == nameValue);
+    var filterSampleData = data.samples.filter(sample => sample.id == nameValue);
+    //fill out table
     
-//     var trace1 = {
-//         x: sampleValues,
-//         y: otuIDs,
-//         text: otuLabels,
-//         marker: {
-//         color: 'blue'}, 
-//         type:"bar",
-//         orientation: "h",
+    
+    console.log(filterMetaData[0])
+    //use to build chart
+    console.log(filterSampleData[0])
 
-//         };
+  d3.select("#meta-id span").html(`${filterMetaData[0].id}`)
+  d3.select("#meta-ethnicity span").html(`${filterMetaData[0].ethnicity}`)
+  d3.select("#meta-gender span").html(`${filterMetaData[0].gender}`)
+  d3.select("#meta-age span").html(`${filterMetaData[0].age}`)
+  d3.select("#meta-location span").html(`${filterMetaData[0].location}`)
+  d3.select("#meta-bbtype span").html(`${filterMetaData[0].bbtype}`)
+  d3.select("#meta-wfreq span").html(`${filterMetaData[0].wfreq}`) 
+  
+    }
 
-//     // Create the data array for our plot
-//     var data = [trace1];
 
-//     // Define our plot layout
-//     var layout = {
-//         title: "Top 10 OTU",
-//         yaxis: { tickmode: "linear" },
-//         margin: {
-//             l: 100,
-//             r: 100,
-//             t: 100,
-//             b: 40
-//     }
-//     };
-//     // Plot the chart to a div tag with id "bar"
-//     Plotly.newPlot("bar", data, layout);
 
-//     });
+    // // Values for bar chart
+    // var sampleValues = data.samples[0].sample_values.slice(0,10).reverse();
+    // console.log(sampleValues)
+
+    // // Labels for chart
+    // var otuIDs = data.samples[0].otu_ids;
+    // console.log(otuIDs)
+
+    // // Hovertext for chart
+    // var otuLabels = data.samples[0].otu_labels.slice(0,10);
+    // console.log(otuLabels)
+
+    // // Top ten IDs
+    // var topID = (data.samples[0].otu_ids.slice(0,10)).reverse();
+
+    // // Make labels
+    // var labels = topID.map(d => "" + d);
+    // console.log(`OTU IDs: ${labels}`)
+    
+    // var trace1 = {
+    //     x: sampleValues,
+    //     y: otuIDs,
+    //     text: otuLabels,
+    //     marker: {
+    //     color: 'blue'}, 
+    //     type:"bar",
+    //     orientation: "h",
+
+    //     };
+
+    // // Create the data array for our plot
+    // var data = [trace1];
+
+    // // Define our plot layout
+    // var layout = {
+    //     title: "Top 10 OTU",
+    //     yaxis: { tickmode: "linear" },
+    //     margin: {
+    //         l: 100,
+    //         r: 100,
+    //         t: 100,
+    //         b: 40
+    // }
+    // };
+    // // Plot the chart to a div tag with id "bar"
+    // Plotly.newPlot("bar", data, layout);
+
+    });
 
 // // Bubble chart
 
@@ -123,4 +134,4 @@ console.log(filterSampleData[0])
 
     
 // }
-})
+// })
